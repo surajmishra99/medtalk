@@ -14,7 +14,7 @@
 	<name>medtalk-app-apis</name>
 	<description>This is a backend apis app for medtalk</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

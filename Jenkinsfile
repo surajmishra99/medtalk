@@ -6,13 +6,14 @@ pipeline {
     stages{
         stage('Checkout from github'){
             steps{
+
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/surajmishra99/medtalk.git']]])
             }
         }
         stage('Build mvn project'){
             steps{
                 script{
-                    sh 'mvn clean package shade:shade'
+                    bat 'mvn clean package shade:shade'
                 }
             }
         }

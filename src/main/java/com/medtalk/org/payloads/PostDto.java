@@ -16,12 +16,12 @@ import java.util.Date;
 public class PostDto {
 
 
-
+    @NotEmpty
     @Size(min = 4,message = "Post Title must contains min of 4 characters !!")
     private String postTitle;
 
-
-//    @Size(min = 10,max = 200,message = "Post Content Min contains 10 and Max contains only 200 characters !!")
+    @NotEmpty
+    @Size(min = 10,max = 200,message = "Post Content Min contains 10 and Max contains only 200 characters !!")
     private String postContent;
 
     private String image;

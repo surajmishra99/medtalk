@@ -13,7 +13,7 @@ pipeline {
         stage('Build mvn project'){
             steps{
                 script{
-                    bat 'mvn clean package shade:shade'
+                    bat 'set'
                 }
             }
         }

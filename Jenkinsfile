@@ -13,7 +13,7 @@ pipeline {
         stage('Build mvn project'){
             steps{
                 script{
-                    bat 'set'
+                    bat 'mvn clean package'
                 }
             }
         }

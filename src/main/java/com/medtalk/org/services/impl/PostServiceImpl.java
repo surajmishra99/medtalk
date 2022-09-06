@@ -11,6 +11,9 @@ import com.medtalk.org.repository.UserRepo;
 import com.medtalk.org.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -48,8 +51,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatePost(PostDto post, Integer postId) {
-        return null;
+    public PostDto updatePost(PostDto postDto, Integer postId) {
+        Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post","post id", postId));
+
+        post.setPostTitle(postDto.getPostTitle());
+        post.setPostContent(postDto.getPostContent());
+        post.setImageName(postDto.getImage());
+
+        Post updatedPost = this.postRepo.save(post);
+
+        return this.modelMapper.map(updatedPost, PostDto.class);
     }
 
     @Override
@@ -60,8 +71,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost() {
-        List<Post> allPosts = this.postRepo.findAll();
+    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+        // pagination
+//        int pageSize=5;
+//        int pageNumber=1;
+
+        Pageable p = PageRequest.of(pageNumber,pageSize);
+
+        Page<Post> pagePost = this.postRepo.findAll(p);
+        List<Post> allPosts = pagePost.getContent();
+
         List<PostDto> postDtos = allPosts.stream().map((post)->this.modelMapper.map(post,PostDto.class))
                 .collect(Collectors.toList());
         return postDtos;
@@ -98,7 +117,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> searchPosts(String keyword) {
-        return null;
+        return null;//
     }
 
 

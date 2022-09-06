@@ -65,19 +65,27 @@ public class PostController {
 
     // get all posts
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAllPost()
-    {
-        List<PostDto> allPost = this.postService.getAllPost();
-        return  new ResponseEntity<List<PostDto>>(allPost,HttpStatus.OK);
+    public ResponseEntity<List<PostDto>> getAllPost(
+            @RequestParam(value = "pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize
+    ) {
+        List<PostDto> allPost = this.postService.getAllPost(pageNumber,pageSize);
+        return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
     }
 
 
     //get post by id
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId)
-    {
+    public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId) {
         PostDto postDto = this.postService.getPostById(postId);
-        return  new ResponseEntity<PostDto>(postDto,HttpStatus.OK);
+        return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto,@PathVariable Integer postId){
+        PostDto updatePost = this.postService.updatePost(postDto,postId);
+        return  new ResponseEntity<PostDto>(updatePost,HttpStatus.OK);
     }
 
 

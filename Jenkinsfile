@@ -7,7 +7,8 @@
             stage('Checkout from github'){
 
 
-                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/surajmishra99/medtalk.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [],
+                     userRemoteConfigs: [[url: 'https://github.com/surajmishra99/medtalk.git']]])
                echo "checkout success"
                 }
 
@@ -17,7 +18,11 @@
 
                     script{
 
-                        bat 'mvn clean package'
+//                         bat 'mvn clean package'
+  {
+        buildInfo = rtMaven.run pom:'pom.xml',goals : 'clean package'}
+        echo "build success : ${buildInfo}"
+
                     }
                 }
             }

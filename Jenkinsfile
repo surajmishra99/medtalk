@@ -11,6 +11,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/surajmishra99/medtalk.git']]])
             }
         }
+
         def buildInfo
         stage('Build mvn project'){
             steps{

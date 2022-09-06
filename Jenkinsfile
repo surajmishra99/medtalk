@@ -12,8 +12,9 @@ pipeline {
             }
         }
 
-        def buildInfo
         stage('Build mvn project'){
+                def buildInfo
+
             steps{
                 script{
 // def getBaseVersion(){

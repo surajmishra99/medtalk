@@ -16,16 +16,16 @@
             stage('Build mvn project'){
                 def buildInfo
 
-                    script{
+//                     script{
 
 //                         bat 'mvn clean package'
-  {
-        buildInfo = rtMaven.run pom:'pom.xml',goals : 'clean package'}
+
+        buildInfo = rtMaven.run pom:'pom.xml',goals : 'clean package'
         echo "build success : ${buildInfo}"
 
                     }
                 }
-            }
+
 
 
 

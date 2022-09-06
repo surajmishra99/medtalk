@@ -27,7 +27,7 @@ def getBaseVersion(){
         stage('maven build')
         {
         buildInfo = rtMaven.run pom:'pom.xml',goals : 'clean package'}
-        echo 'build success'
+        echo "build success : ${buildInfo}"
     }
 }
 }

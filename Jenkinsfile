@@ -1,9 +1,9 @@
-pipeline {
-    agent any
-    tools{
-        maven 'maven_3.8.6'
-    }
-    node('windows'){
+// pipeline {
+//     agent any
+//     tools{
+//         maven 'maven_3.8.6'
+//     }
+    node('linux'){
         stages{
             stage('Checkout from github'){
                 steps{
@@ -24,7 +24,7 @@ pipeline {
             }
         }
     }
-}
+
 
 
 

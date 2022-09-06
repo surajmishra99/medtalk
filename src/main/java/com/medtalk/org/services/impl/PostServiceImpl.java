@@ -5,6 +5,7 @@ import com.medtalk.org.entity.Post;
 import com.medtalk.org.entity.User;
 import com.medtalk.org.exceptions.ResourceNotFoundException;
 import com.medtalk.org.payloads.PostDto;
+import com.medtalk.org.payloads.PostResponse;
 import com.medtalk.org.repository.CategoryRepo;
 import com.medtalk.org.repository.PostRepo;
 import com.medtalk.org.repository.UserRepo;
@@ -71,7 +72,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
         // pagination
 //        int pageSize=5;
 //        int pageNumber=1;
@@ -83,7 +84,18 @@ public class PostServiceImpl implements PostService {
 
         List<PostDto> postDtos = allPosts.stream().map((post)->this.modelMapper.map(post,PostDto.class))
                 .collect(Collectors.toList());
-        return postDtos;
+
+        PostResponse postResponse= new PostResponse();
+
+        postResponse.setContent(postDtos);
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPages(pagePost.isLast());
+
+
+        return postResponse;
     }
 
     @Override

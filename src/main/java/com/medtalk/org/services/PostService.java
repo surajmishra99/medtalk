@@ -2,6 +2,7 @@ package com.medtalk.org.services;
 
 import com.medtalk.org.entity.Post;
 import com.medtalk.org.payloads.PostDto;
+import com.medtalk.org.payloads.PostResponse;
 
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface PostService {
     PostDto createPost(PostDto postDto,Integer userId,Integer categoryId);
     PostDto updatePost(PostDto postDto,Integer postId);
     PostDto getPostById(Integer postId);
-    List<PostDto> getAllPost(Integer pageNumber, Integer pageSize);
+    PostResponse getAllPost(Integer pageNumber, Integer pageSize);
     void deletePost(Integer postId);
 
 //    get all post by category

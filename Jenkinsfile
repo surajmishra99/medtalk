@@ -3,7 +3,7 @@ pipeline {
     tools{
         maven 'maven_3.8.6'
     }
-    node('windows'){
+//     node('windows'){
     stages{
         stage('Checkout from github'){
             steps{

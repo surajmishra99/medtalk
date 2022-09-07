@@ -4,6 +4,7 @@ package com.medtalk.org.controllers;
 import com.medtalk.org.entity.Post;
 import com.medtalk.org.payloads.ApiResponse;
 import com.medtalk.org.payloads.PostDto;
+import com.medtalk.org.payloads.PostResponse;
 import com.medtalk.org.services.CategoryService;
 import com.medtalk.org.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,15 +65,15 @@ public class PostController {
     }
 
     // get all posts
-//    @GetMapping("/posts")
-//    public ResponseEntity<List<PostDto>> getAllPost(
-//            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
-//            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize
-//    )
-//    {
-//        List<PostDto> allPost = this.postService.getAllPost(pageNumber,pageSize);
-//        return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
-//    }
+    @GetMapping("/posts")
+    public ResponseEntity<PostResponse> getAllPost(
+            @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize
+    )
+    {
+        PostResponse allPost = this.postService.getAllPost(pageNumber,pageSize);
+        return new ResponseEntity<PostResponse>(allPost, HttpStatus.OK);
+    }
 
 
     //get post by id

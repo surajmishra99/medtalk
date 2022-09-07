@@ -1,7 +1,5 @@
 package com.medtalk.org.payloads;
 
-import com.medtalk.org.entity.Category;
-import com.medtalk.org.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

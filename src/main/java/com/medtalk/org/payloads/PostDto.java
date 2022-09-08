@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PostDto {
 
+    private int postId;
 
     @NotEmpty
     @Size(min = 4,message = "Post Title must contains min of 4 characters !!")

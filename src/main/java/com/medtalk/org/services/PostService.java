@@ -12,7 +12,7 @@ public interface PostService {
     PostDto createPost(PostDto postDto,Integer userId,Integer categoryId);
     PostDto updatePost(PostDto postDto,Integer postId);
     PostDto getPostById(Integer postId);
-    PostResponse getAllPost(Integer pageNumber, Integer pageSize);
+    PostResponse getAllPost(Integer pageNumber, Integer pageSize,String sortBy, String sortDirection);
     void deletePost(Integer postId);
 
 //    get all post by category

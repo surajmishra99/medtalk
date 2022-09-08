@@ -2,12 +2,15 @@ package com.medtalk.org.services.impl;
 
 
 
+import com.medtalk.org.entity.Category;
 import com.medtalk.org.entity.Comment;
 import com.medtalk.org.entity.Post;
 import com.medtalk.org.entity.User;
 import com.medtalk.org.exceptions.ResourceNotFoundException;
+import com.medtalk.org.payloads.CategoryDto;
 import com.medtalk.org.payloads.CommentDto;
 import com.medtalk.org.payloads.PostDto;
+import com.medtalk.org.payloads.UserDto;
 import com.medtalk.org.repository.CommentRepo;
 import com.medtalk.org.repository.PostRepo;
 import com.medtalk.org.repository.UserRepo;
@@ -16,8 +19,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,6 +37,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private PostRepo postRepo;
+
+
 
     //for creating a comment
     @Override
@@ -59,25 +64,49 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-
+    //for getting all comments
     @Override
-    public List<CommentDto> getAllComment() {
-        return null;
+    public List<CommentDto> getAllComments() {
+
+        List<Comment> getAllComments = this.commentRepo.findAll();
+        List<CommentDto> commentDtos = getAllComments.stream().map((comments) -> this.modelMapper.map(comments, CommentDto.class)).collect(Collectors.toList());
+        return commentDtos;
     }
 
+    //for deleting comment
     @Override
     public void deleteComment(Integer commentId) {
+        Comment comment= this.commentRepo.findById(commentId)
+                .orElseThrow(()-> new ResourceNotFoundException("Comment","comment id ",commentId));
+        this.commentRepo.delete(comment);
 
     }
 
+
+    //for getting comments by user
     @Override
     public List<CommentDto> getCommentByUser(Integer userId) {
-        return null;
+        User user= this.userRepo.findById(userId)
+                .orElseThrow(()->new ResourceNotFoundException("User","user id",userId));
+        List<Comment> comments = this.commentRepo.findByUser(user);
+
+        List<CommentDto>CommentDtos =comments.stream().map((comment) -> this.modelMapper.map(comment,CommentDto.class)).collect(Collectors.toList());
+
+        return CommentDtos;
+
     }
 
+
+
+    //for getting comments by post
     @Override
     public List<CommentDto> getCommentByPost(Integer postId) {
-        return null;
+        Post posts= this.postRepo.findById(postId)
+                .orElseThrow(()->new ResourceNotFoundException("Post","post id",postId));
+        List<Comment> comments = this.commentRepo.findByPost(posts);
+
+        List<CommentDto>CommentDtos =comments.stream().map((comment) -> this.modelMapper.map(comment,CommentDto.class)).collect(Collectors.toList());
+        return CommentDtos;
     }
 
 

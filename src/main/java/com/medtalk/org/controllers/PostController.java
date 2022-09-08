@@ -1,7 +1,5 @@
 package com.medtalk.org.controllers;
 
-
-import com.medtalk.org.entity.Post;
 import com.medtalk.org.payloads.ApiResponse;
 import com.medtalk.org.payloads.PostDto;
 import com.medtalk.org.payloads.PostResponse;
@@ -58,7 +56,7 @@ public class PostController {
 
 
     //Delete Post
-    @DeleteMapping("/delete/{postId}")
+    @DeleteMapping("/post/{postId}")
     public ResponseEntity<ApiResponse> deletePost(@PathVariable("postId") Integer pId) {
         this.postService.deletePost(pId);
         return new ResponseEntity(new ApiResponse("Post Deleted Successfully", true), HttpStatus.OK);
@@ -67,6 +65,7 @@ public class PostController {
     // get all posts
     @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPost(
+
             @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize
     )

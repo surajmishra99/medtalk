@@ -1,5 +1,7 @@
 package com.medtalk.org.controllers;
 
+import com.medtalk.org.entity.Comment;
+import com.medtalk.org.payloads.ApiResponse;
 import com.medtalk.org.payloads.CommentDto;
 import com.medtalk.org.payloads.PostDto;
 import com.medtalk.org.services.CommentService;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
@@ -42,5 +46,39 @@ public class CommentController {
         CommentDto commentDto = this.commentService.getCommentById(commentId);
         return new ResponseEntity<CommentDto>(commentDto, HttpStatus.OK);
     }
+
+
+    // for get all comments
+
+
+    //delete comment
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<ApiResponse> deleteComment(@PathVariable("commentId") Integer cId) {
+        this.commentService.deleteComment(cId);
+        return new ResponseEntity(new ApiResponse("Comment Deleted Successfully", true), HttpStatus.OK);
+    }
+
+
+    //for getting comments by user
+    @GetMapping("/user/{userId}/comment")
+
+    public ResponseEntity<List<CommentDto>> getCommentByUser(
+            @PathVariable Integer userId
+    ) {
+        List<CommentDto> comments = this.commentService.getCommentByUser(userId);
+        return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
+    }
+
+    //for getting comments by post
+    @GetMapping("/post/{postId}/comment")
+
+    public ResponseEntity<List<CommentDto>> getCommentByPost(
+            @PathVariable Integer postId
+    ) {
+        List<CommentDto> comments = this.commentService.getCommentByPost(postId);
+        return new ResponseEntity<List<CommentDto>>(comments, HttpStatus.OK);
+    }
+
+
 
 }

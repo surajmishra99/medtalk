@@ -12,7 +12,7 @@ public interface CommentService {
 
     CommentDto getCommentById(Integer commentId);
 
-    List<CommentDto> getAllComment();
+    List<CommentDto> getAllComments();
 
 
     void deleteComment(Integer commentId);

@@ -7,14 +7,18 @@ import com.medtalk.org.payloads.PostResponse;
 import com.medtalk.org.services.CategoryService;
 import com.medtalk.org.services.FileService;
 import com.medtalk.org.services.PostService;
+import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -110,8 +114,8 @@ public class PostController {
         return new ResponseEntity <List<PostDto>>(result,HttpStatus.OK);
     }
 
-    //post image upload
 
+    //post image upload
     @PostMapping("/post/image/upload/{postId}")
     public ResponseEntity<PostDto> uploadPostImage(
             @RequestParam("image")MultipartFile image,
@@ -124,6 +128,17 @@ public class PostController {
         postDto.setImage (fileName);
         PostDto updatePost = this.postService.updatePost(postDto, postId);
         return new ResponseEntity<PostDto>(updatePost,HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/post/image/{image}",produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadImage(
+            @PathVariable ("image") String image,
+            HttpServletResponse response
+    )throws IOException{
+        InputStream resource = this.fileService.getResource(path,image);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource,response.getOutputStream());
     }
 
 

@@ -5,12 +5,16 @@ import com.medtalk.org.payloads.ApiResponse;
 import com.medtalk.org.payloads.PostDto;
 import com.medtalk.org.payloads.PostResponse;
 import com.medtalk.org.services.CategoryService;
+import com.medtalk.org.services.FileService;
 import com.medtalk.org.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -23,6 +27,11 @@ public class PostController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private FileService fileService;
+
+    @Value("${project.image}")
+    private String path;
 
     //  create post
     @PostMapping("/user/{userId}/category/{categoryId}/posts")
@@ -99,6 +108,22 @@ public class PostController {
     ){
         List<PostDto> result= this.postService.searchPosts(keywords);
         return new ResponseEntity <List<PostDto>>(result,HttpStatus.OK);
+    }
+
+    //post image upload
+
+    @PostMapping("/post/image/upload/{postId}")
+    public ResponseEntity<PostDto> uploadPostImage(
+            @RequestParam("image")MultipartFile image,
+            @PathVariable Integer postId
+            ) throws IOException {
+
+        PostDto postDto = this.postService.getPostById(postId);
+
+        String fileName = this.fileService.uploadImage(path, image);
+        postDto.setImage (fileName);
+        PostDto updatePost = this.postService.updatePost(postDto, postId);
+        return new ResponseEntity<PostDto>(updatePost,HttpStatus.OK);
     }
 
 

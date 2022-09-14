@@ -134,10 +134,5 @@ public class PostServiceImpl implements PostService {
         return PostDtos;
     }
 
-    @Override
-    public List<Post> searchPosts(String keyword) {
-        return null;//
-    }
-
 
 }
